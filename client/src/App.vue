@@ -11,6 +11,9 @@ export default {
 </script>
 
 <style>
+body {
+  background: #eee;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -19,4 +22,9 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+/* Style input box */
+.input-group--text-field input {
+    border-bottom: 1px solid #ddd;
+  }
 </style>
