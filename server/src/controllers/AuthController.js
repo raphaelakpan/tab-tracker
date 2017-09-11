@@ -1,6 +1,7 @@
 const { User } = require('../models')
+const jwtPolicy = require('../policies/jwtPolicy')
 
-function userCredentials(user) {
+function filterUserCredentials(user) {
   return {
     id: user.id,
     email: user.email,
@@ -13,7 +14,8 @@ module.exports = {
     User.create(req.body).then(user =>
       res.status(200).send({
         message: 'User successfully created!',
-        user: userCredentials(user)
+        user: filterUserCredentials(user),
+        token: jwtPolicy.generateToken(user.toJSON())
       })
     ).catch(error => {
       let message = []
@@ -35,7 +37,8 @@ module.exports = {
       if (user && user.password == req.body.password) {
         res.status(200).send({
           message: 'User logged in successfully!',
-          user: userCredentials(user)
+          user: filterUserCredentials(user),
+          token: jwtPolicy.generateToken(user.toJSON())
         })
       } else {
         res.status(401).send({
