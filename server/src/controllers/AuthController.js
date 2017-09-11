@@ -11,13 +11,15 @@ function filterUserCredentials(user) {
 }
 module.exports = {
   register (req, res) {
-    User.create(req.body).then(user =>
+    User.create(req.body).then(user => {
+      const filteredUer = filterUserCredentials(user)
+
       res.status(200).send({
         message: 'User successfully created!',
-        user: filterUserCredentials(user),
-        token: jwtPolicy.generateToken(user.toJSON())
+        user: filteredUer,
+        token: jwtPolicy.generateToken(filteredUer)
       })
-    ).catch(error => {
+    }).catch(error => {
       let message = []
       if (error.errors[0].type == 'unique violation') {
         message.push('Email has already been taken')
@@ -29,16 +31,20 @@ module.exports = {
   },
 
   login (req, res) {
+    const { email, password } = req.body
+
     const query = {
-      where: { email: req.body.email }
+      where: { email }
     }
 
     User.findOne(query).then(user => {
-      if (user && user.password == req.body.password) {
+      if (user && user.comparePassword(password)) {
+        const filteredUer = filterUserCredentials(user)
+
         res.status(200).send({
           message: 'User logged in successfully!',
-          user: filterUserCredentials(user),
-          token: jwtPolicy.generateToken(user.toJSON())
+          user: filteredUer,
+          token: jwtPolicy.generateToken(filteredUer)
         })
       } else {
         res.status(401).send({
