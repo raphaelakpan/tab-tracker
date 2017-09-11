@@ -2,7 +2,7 @@
 <v-layout column>
     <v-flex class="form">
       <div class="white elevation-2">
-        <v-toolbar flat dense class="teal white--text">
+        <v-toolbar dense flat dark class="blue">
           <v-toolbar-title>Log In to your Account </v-toolbar-title>
         </v-toolbar>
         <div style="padding: 10px">
@@ -22,10 +22,10 @@
               required
             ></v-text-field>
             <div class="form-group">
-              <v-btn class="teal white--text" @click="login">Log In</v-btn>
-              <v-btn class="orange darken-4 white--text" @click="reset">Clear</v-btn>
+              <v-btn dark class="blue" @click="login">Log In</v-btn>
+              <v-btn dark class="orange darken-4" @click="reset">Clear</v-btn>
             </div>
-            <p class="teal--text"> {{ message }} <p>
+            <p class="blue--text"> {{ message }} <p>
             <p
               v-for="(error, index) in serverErrors"
               :key="index"
@@ -93,6 +93,13 @@
 <style scoped>
   .form {
     margin: 0 auto;
-    width: 30%;
+    width: 100%;
   }
+
+  @media(min-width: 700px) {
+    .form {
+      width: 30%
+    }
+  }
+
 </style>

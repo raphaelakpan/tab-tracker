@@ -1,13 +1,24 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <v-app>
+      <app-header></app-header>
+      <main>
+        <v-container fluid>
+          <router-view></router-view>
+        </v-container>
+      </main>
+   </v-app>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+  import AppHeader from '@/components/common/Header.vue'
+
+  export default {
+    components: {
+      AppHeader
+    }
+  }
 </script>
 
 <style>
@@ -23,8 +34,10 @@ body {
   margin-top: 60px;
 }
 
-/* Style input box */
-.input-group--text-field input {
-    border-bottom: 1px solid #ddd;
-  }
+.router-link-exact-active {
+  background: #eee !important;
+  color: #000 !important;
+  opacity: 0.7;
+  font-weight: 900;
+}
 </style>
