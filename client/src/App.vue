@@ -40,4 +40,9 @@ body {
   opacity: 0.7;
   font-weight: 900;
 }
+
+  .panel {
+    margin: 0 auto;
+    width: 40%;
+  }
 </style>

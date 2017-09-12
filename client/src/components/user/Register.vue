@@ -1,60 +1,56 @@
 <template>
-  <v-layout column>
-    <v-flex class="form">
-      <div class="white elevation-2">
-        <v-toolbar flat dense dark class="blue">
-          <v-toolbar-title>Create a new Account </v-toolbar-title>
-        </v-toolbar>
-        <div style="padding: 10px">
-          <v-form v-model="valid" ref="form">
-           <v-text-field
-              label="Email"
-              v-model="user.email"
-              :rules="emailRules"
-              type="email"
-              required
-            ></v-text-field>
-            <v-text-field
-              label="Password"
-              v-model="user.password"
-              :rules="passwordRules"
-              type="password"
-              required
-            ></v-text-field>
-            <v-text-field
-              label="Confirm Password"
-              v-model="user.confirmPassword"
-              :rules="confirmPasswordRules"
-              type="password"
-              required
-            ></v-text-field>
-            <p v-show="user.confirmPassword && confirmedPassword" class="red--text" >
-              Passwords do not match!
-            </p>
-            <div class="form-group">
-              <v-btn dark class="blue" @click="register">Register</v-btn>
-              <v-btn dark class="orange darken-4" @click="reset">Clear</v-btn>
-            </div>
-            <p class="blue--text"> {{ message }} <p>
-            <p
-              v-for="(error, index) in serverErrors"
-              :key="index"
-              class="red--text">
-              {{ error }}
-            </p>
-          </v-form>
-        </div>
+  <panel title="Create a new Account">
+    <v-form v-model="valid" ref="form">
+      <v-text-field
+        label="Email"
+        v-model="user.email"
+        :rules="emailRules"
+        type="email"
+        required
+      ></v-text-field>
+      <v-text-field
+        label="Password"
+        v-model="user.password"
+        :rules="passwordRules"
+        type="password"
+        required
+      ></v-text-field>
+      <v-text-field
+        label="Confirm Password"
+        v-model="user.confirmPassword"
+        :rules="confirmPasswordRules"
+        type="password"
+        required
+      ></v-text-field>
+      <p v-show="user.confirmPassword && confirmedPassword" class="red--text" >
+        Passwords do not match!
+      </p>
+      <div class="form-group">
+        <v-btn dark class="blue" @click="register">Register</v-btn>
+        <v-btn dark class="orange darken-4" @click="reset">Clear</v-btn>
       </div>
-    </v-flex>
-  </v-layout>
+      <p>Already have an account? <router-link to="login"> Sign In </router-link> </p>
+      <p class="blue--text"> {{ message }} <p>
+      <p
+        v-for="(error, index) in serverErrors"
+        :key="index"
+        class="red--text">
+        {{ error }}
+      </p>
+    </v-form>
+  </panel>
 </template>
 
 <script>
   /* eslint-disable no-useless-escape */
 
   import Authentication from '@/services/Authentication'
+  import Panel from '../common/Panel.vue'
 
   export default {
+    components: {
+      Panel
+    },
     $validates: true,
     data () {
       return {
@@ -95,6 +91,9 @@
           this.message = response.data.message
           this.serverErrors = []
           this.$refs.form.reset()
+          // Dispatch action to store user and token
+          this.$store.dispatch('setToken', response.data.token)
+          this.$store.dispatch('setUser', response.data.user)
         }).catch(error => {
           this.serverErrors = error.response.data.errors
           this.message = ''
@@ -113,8 +112,7 @@
 </script>
 
 <style scoped>
-  .form {
-    margin: 0 auto;
-    width: 30%;
+  a {
+    text-decoration: none;
   }
 </style>
