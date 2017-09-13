@@ -10,6 +10,7 @@ module.exports = {
       { expiresIn: ONE_DAY }
     )
   },
+
   verifyToken (req, res, next) {
     const token = req.headers.authorization
     if (!token) {
