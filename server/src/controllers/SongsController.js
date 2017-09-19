@@ -4,7 +4,22 @@ const helper = require('./helpers/songHelper')
 module.exports = {
   // Get all songs
   index (req, res) {
-    Song.findAll({ limit: 10 }).then(songs => {
+    const query = { limit: 10 }
+    let search = req.query.search
+
+    if (search) {
+      query.where = {
+        $or: [
+          'title', 'artist', 'album', 'genre'
+        ].map(key => ({
+          [key]: {
+            $iLike: `%${search}%`
+          }
+        }))
+      }
+    }
+
+    Song.findAll(query).then(songs => {
       res.status(200).send({ songs })
     }).catch(error => helper.handleError(res, error))
   },

@@ -16,7 +16,7 @@ module.exports = {
     const { error, value } = Joi.validate(req.body, schema)
     if (error) {
       res.status(400).send({
-        errors: error.details[0].message
+        errors: [error.details[0].message]
       })
     } else {
       next()
@@ -32,7 +32,7 @@ module.exports = {
     if (error) {
 
       res.status(400).send({
-        errors: error.details[0].message
+        errors: [error.details[0].message]
       })
     } else {
       next()
