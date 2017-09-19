@@ -22,27 +22,31 @@
 </script>
 
 <style>
-body {
-  background: #eee;
-}
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  body {
+    background: #eee;
+  }
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+  }
 
-.router-link-exact-active {
-  background: #eee !important;
-  color: #000 !important;
-  opacity: 0.7;
-  font-weight: 900;
-}
+  .router-link-exact-active {
+    background: #eee !important;
+    color: #000 !important;
+    opacity: 0.7;
+    font-weight: 900;
+  }
 
-  .panel {
+  .form {
     margin: 0 auto;
     width: 40%;
+  }
+
+  a {
+    text-decoration: none;
   }
 </style>

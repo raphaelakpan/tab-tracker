@@ -4,6 +4,7 @@
       <div class="white elevation-2">
         <v-toolbar dense flat dark class="blue">
           <v-toolbar-title>{{ title }} </v-toolbar-title>
+          <slot name="action"></slot>
         </v-toolbar>
         <div style="padding: 10px">
           <slot>
@@ -19,8 +20,7 @@
   export default {
     props: {
       title: {
-        type: String,
-        required: true
+        type: String
       }
     }
   }
