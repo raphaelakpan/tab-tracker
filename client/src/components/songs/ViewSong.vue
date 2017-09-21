@@ -29,6 +29,10 @@
                   <span class="title deep-orange--text"> {{song.album}} </span>
                   <v-icon medium class="deep-orange--text">library_music</v-icon>
                 </div>
+                <div v-if="userLoggedIn">
+                  <v-btn @click="addBookmark" v-if="!bookmark"> Bookmark </v-btn>
+                  <v-btn @click="deleteBookmark" v-if="bookmark"> Unbookmark </v-btn>
+                </div>
               </div>
             </v-flex>
           </v-layout>
@@ -57,19 +61,67 @@
 
 <script>
   import SongApi from '@/services/Songs'
+  import BookmarkApi from '@/services/Bookmarks'
+  import { mapState } from 'vuex'
 
   export default {
+    computed: {
+      ...mapState([
+        'userLoggedIn'
+      ])
+    },
     data () {
       return {
         id: null,
         song: '',
-        sampleImageUrl: 'http://via.placeholder.com/350x150'
+        sampleImageUrl: 'http://via.placeholder.com/350x150',
+        bookmark: null
       }
     },
     created () {
       this.id = this.$route.params.id
       SongApi.getSong(this.id).then(response => {
         this.song = response.data.song
+      }).catch(error => {
+        console.log(error.response)
+      })
+    },
+    methods: {
+      addBookmark () {
+        BookmarkApi.addBookmark({
+          SongId: this.id,
+          UserId: this.$store.state.user.id
+        }).then(response => {
+          this.bookmark = response.data.bookmark
+          this.$store.dispatch('addBookmark', {
+            id: this.bookmark.id,
+            SongId: this.song.id,
+            SongTitle: this.song.title,
+            SongArtist: this.song.artist
+          })
+        }).catch(error => {
+          console.log(error.response)
+        })
+      },
+      deleteBookmark () {
+        BookmarkApi.deleteBookmark(this.bookmark.id).then(response => {
+          this.$store.dispatch('deleteBookmark', this.bookmark.id)
+          this.bookmark = null
+        }).catch(error => {
+          console.log(error.response)
+        })
+      }
+    },
+    mounted () {
+      if (!this.userLoggedIn) {
+        return
+      }
+
+      BookmarkApi.getBookmark({
+        SongId: this.id,
+        UserId: this.$store.state.user.id
+      }).then(response => {
+        this.bookmark = response.data.bookmark
       }).catch(error => {
         console.log(error.response)
       })
@@ -118,7 +170,7 @@
   }
 
   .justify-center div > * {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
   iframe {

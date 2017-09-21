@@ -1,13 +1,11 @@
 <template>
-  <div class="mb-2">
-    <panel title="Search Song">
-      <v-form ref="form">
-        <v-text-field
-          label="Search Song"
-          v-model="search"
-        ></v-text-field>
-      </v-form>
-    </panel>
+  <div class="white elevation-2 search-panel">
+    <v-form ref="form">
+      <v-text-field
+        label="Search Song"
+        v-model="search"
+      ></v-text-field>
+    </v-form>
   </div>
 </template>
 
@@ -44,6 +42,14 @@
   }
 </script>
 
-<style>
+<style scoped>
+  .search-panel {
+    height: 49px;
+    margin-bottom: 10px;
+    padding-left: 2px;
+  }
 
+  label {
+    left: 0.5% !important;
+  }
 </style>

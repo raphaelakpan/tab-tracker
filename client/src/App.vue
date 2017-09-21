@@ -1,7 +1,12 @@
 <template>
   <div id="app">
     <v-app>
-      <app-header></app-header>
+       <v-navigation-drawer temporary light v-model="drawer" overflow>
+         <nav-drawer-content> </nav-drawer-content>
+      </v-navigation-drawer>
+      <app-header>
+        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      </app-header>
       <main>
         <v-container fluid>
           <router-view></router-view>
@@ -13,10 +18,17 @@
 
 <script>
   import AppHeader from '@/components/common/Header.vue'
+  import NavDrawerContent from '@/components/common/NavDrawerContent.vue'
 
   export default {
     components: {
-      AppHeader
+      AppHeader,
+      NavDrawerContent
+    },
+    data () {
+      return {
+        drawer: true
+      }
     }
   }
 </script>
@@ -31,7 +43,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
+    /* margin-top: 60px; */
   }
 
   .router-link-exact-active {

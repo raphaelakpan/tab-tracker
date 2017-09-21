@@ -1,5 +1,6 @@
 <template>
   <v-toolbar fixed flat dark class="blue">
+    <slot> </slot>
     <v-toolbar-title>
       <span class="brand" @click="navigateTo('root')"> Tab-Tracker </span>
     </v-toolbar-title>
@@ -19,11 +20,6 @@
 
 <script>
   export default {
-    data () {
-      return {
-        drawer: true
-      }
-    },
     methods: {
       navigateTo (name) {
         this.$router.push({ name })

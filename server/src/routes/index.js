@@ -24,5 +24,7 @@ module.exports = (app) => {
 
   // Bookmark endpoints
   app.get('/bookmarks', Bookmark.index)
-
+  app.get('/users/:id/bookmarks', Bookmark.getBookmarksByUser)
+  app.post('/bookmarks', Bookmark.create)
+  app.delete('/bookmarks/:id', Bookmark.delete)
 }
